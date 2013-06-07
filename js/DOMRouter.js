@@ -17,13 +17,14 @@ if (typeof Date.now === "undefined") {
 /**
  * Generic proxy object to catch or group DOMEvents together
  * @param context {Object} the context of the callback
- * @param [tagName] {String} the tagname of the proxy element
+ * @param [tag] {String|HTMLElement} either the tagname of the proxy element or a pre-specified element
  * @constructor
  */
-var DOMRouter = function (context, tagName) {
+var DOMRouter = function (context, tag) {
     var self = this;
     self.context = context;
-    self.element = document.createElement(tagName || "div");
+    self.element = (tag instanceof HTMLElement ?
+        tag : document.createElement(tag || "div"));
     self.listeners = {};
     self.listener = function () {
         self.callback.apply(self, arguments)
@@ -76,9 +77,36 @@ DOMRouter.prototype.addListener = function (listeners) {
  */
 DOMRouter.prototype.removeListener = function (listener) {
     var element = this.getElement();
-
     delete this.listeners[listener];
     element[DOMRouter.handlers.remove](this._getEvent(listener), this.listener);
+    return this;
+};
+
+/**
+ * removes all listeners from the dom element
+ * @return {DOMRouter}
+ */
+DOMRouter.prototype.removeListeners = function () {
+    var element = this.getElement();
+    var listeners = this.listeners;
+    var l;
+
+    for (l in listeners) {
+        if (listeners.hasOwnProperty(l)) {
+            element[DOMRouter.handlers.remove](this._getEvent(l), this.listener);
+        }
+    }
+
+    return this;
+};
+
+/**
+ * removes all listeners from the dom element and the hub too
+ * @return {DOMRouter}
+ */
+DOMRouter.prototype.removeAllListeners = function () {
+    this.removeListeners();
+    this.listeners = {};
     return this;
 };
 
@@ -88,6 +116,33 @@ DOMRouter.prototype.removeListener = function (listener) {
  */
 DOMRouter.prototype.getElement = function () {
 	return this.element;
+};
+
+/**
+ * replaces the router element
+ * @param element {HTMLElement}
+ * @param listeners {Object} map of events as keys and callbacks as strings or functions
+ * @return {DOMRouter}
+ */
+DOMRouter.prototype.setElement = function (element, listeners) {
+    var l;
+    var _listeners = this.listeners;
+
+    //unregister all events from old element
+    this.removeListeners();
+
+    this.element = element;
+
+    //register events again
+    for (l in listeners) {
+        if (listeners.hasOwnProperty(l) && !_listeners.hasOwnProperty(l)) {
+            element[DOMRouter.handlers.add](this._getEvent(l), this.listener);
+
+            _listeners[l] = listeners[l];
+        }
+    }
+
+    return this;
 };
 
 /**
