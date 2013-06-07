@@ -25,7 +25,10 @@ var app = Object.create({
 
 
 
-var domEventHub = new DOMRouter(app);
+var div = document.createElement("div");
+div.setAttribute("class", "trigger");
+
+var domEventHub = new DOMRouter(app, div);
 
 domEventHub.addListener({
     "click": "click",
