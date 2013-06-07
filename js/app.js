@@ -1,12 +1,12 @@
 
 var app = Object.create({
     click: function () {
-        DOMRouter.getConsole()
-            .log("click", this, arguments);
+        var console = DOMRouter.getConsole();
+        console.log("click", this, arguments);
     },
     mousedown: function () {
-        DOMRouter.getConsole()
-            .log("mousedown", this, arguments);
+        var console = DOMRouter.getConsole();
+        console.log("mousedown", this, arguments);
 
         this.hub.removeListener("mousedown");
     },

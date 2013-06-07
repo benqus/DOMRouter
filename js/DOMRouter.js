@@ -35,17 +35,7 @@ var DOMRouter = function (context, tagName) {
  * @returns {Console}
  */
 DOMRouter.getConsole = function () {
-    var c = console;
-
-    if (typeof console === "undefined") {
-        c = {
-            log: function () {}
-        };
-    } else {
-        c = console;
-    }
-
-    return c;
+    return (console ? console : { log: function () {} });
 };
 
 /**
@@ -93,27 +83,6 @@ DOMRouter.prototype.removeListener = function (listener) {
 };
 
 /**
- * replaces the current listener in the lookup
- * @param listeners {Object} map of events as keys and callbacks as strings or functions
- * @return {DOMRouter}
- */
-DOMRouter.prototype.replaceListener = function (listeners) {
-    var l;
-    var element = this.getElement();
-    var _listeners = this.listeners;
-
-    for (l in listeners) {
-        if (listeners.hasOwnProperty(l)) {
-            element[DOMRouter.handlers.add](this._getEvent(l), this.listener);
-
-            _listeners[l] = listeners[l];
-        }
-    }
-
-    return this;
-};
-
-/**
  * returns the proxy DOMElement
  * @returns {HTMLElement}
  */
@@ -143,6 +112,7 @@ DOMRouter.prototype.callback = function (event) {
 };
 
 /**
+ * collection of the browser specific event types
  * @static
  */
 DOMRouter.handlers = (function () {
@@ -163,6 +133,7 @@ DOMRouter.handlers = (function () {
 }());
 
 /**
+ * prefix for browser specific generic event types
  * @static
  */
 DOMRouter.eventPrefix = (function () {
