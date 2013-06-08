@@ -35,5 +35,10 @@
             ok(router.hasOwnProperty(property));
             notEqual(typeof router[property], "undefined");
         }
+
+        equal(router.context, context);
+        equal(typeof router.listener, "function");
+        deepEqual(router.listeners, {});
+        ok(router.element instanceof HTMLElement);
     });
 }());
