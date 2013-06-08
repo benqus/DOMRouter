@@ -43,7 +43,6 @@ DOMRouter.getConsole = function () {
  * resolves the event based on the actual browser
  * @param event {String}
  * @returns {String}
- * @private
  */
 DOMRouter.prototype.normalizeEvent = function (event) {
     return (DOMRouter.eventPrefix + event.replace("on", ""));
