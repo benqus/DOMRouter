@@ -1,3 +1,0 @@
-(function ($s) {
-    // test stuff...
-}(sinon));

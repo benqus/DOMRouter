@@ -45,7 +45,7 @@ DOMRouter.getConsole = function () {
  * @returns {String}
  * @private
  */
-DOMRouter.prototype._getEvent = function (event) {
+DOMRouter.prototype.normalizeEvent = function (event) {
     return (DOMRouter.eventPrefix + event.replace("on", ""));
 };
 
@@ -61,7 +61,7 @@ DOMRouter.prototype.addListener = function (listeners) {
 
     for (l in listeners) {
         if (listeners.hasOwnProperty(l) && !_listeners.hasOwnProperty(l)) {
-            element[DOMRouter.handlers.add](this._getEvent(l), this.listener);
+            element[DOMRouter.handlers.add](this.normalizeEvent(l), this.listener);
 
             _listeners[l] = listeners[l];
         }
@@ -78,7 +78,7 @@ DOMRouter.prototype.addListener = function (listeners) {
 DOMRouter.prototype.removeListener = function (listener) {
     var element = this.getElement();
     delete this.listeners[listener];
-    element[DOMRouter.handlers.remove](this._getEvent(listener), this.listener);
+    element[DOMRouter.handlers.remove](this.normalizeEvent(listener), this.listener);
     return this;
 };
 
@@ -93,7 +93,7 @@ DOMRouter.prototype.removeListeners = function () {
 
     for (l in listeners) {
         if (listeners.hasOwnProperty(l)) {
-            element[DOMRouter.handlers.remove](this._getEvent(l), this.listener);
+            element[DOMRouter.handlers.remove](this.normalizeEvent(l), this.listener);
         }
     }
 
@@ -136,7 +136,7 @@ DOMRouter.prototype.setElement = function (element, listeners) {
     //register events again
     for (l in listeners) {
         if (listeners.hasOwnProperty(l) && !_listeners.hasOwnProperty(l)) {
-            element[DOMRouter.handlers.add](this._getEvent(l), this.listener);
+            element[DOMRouter.handlers.add](this.normalizeEvent(l), this.listener);
 
             _listeners[l] = listeners[l];
         }
