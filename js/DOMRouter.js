@@ -47,7 +47,7 @@ DOMRouter.prototype.normalizeEvent = function (event) {
  */
 DOMRouter.prototype.addListener = function (listeners) {
     var l;
-    var element = this.getElement();
+    var element = this.element;
     var _listeners = this.listeners;
 
     for (l in listeners) {
@@ -67,7 +67,7 @@ DOMRouter.prototype.addListener = function (listeners) {
  * @return {DOMRouter}
  */
 DOMRouter.prototype.removeListener = function (listener) {
-    var element = this.getElement();
+    var element = this.element;
     delete this.listeners[listener];
     element[DOMRouter.handlers.remove](this.normalizeEvent(listener), this.listener);
     return this;
@@ -78,7 +78,7 @@ DOMRouter.prototype.removeListener = function (listener) {
  * @return {DOMRouter}
  */
 DOMRouter.prototype.removeListeners = function () {
-    var element = this.getElement();
+    var element = this.element;
     var listeners = this.listeners;
     var l;
 
