@@ -5,7 +5,8 @@
 
         <link rel="stylesheet" href="lib/qunit/qunit-1.10.0.css" />
 
-        <!--jquery and sinon for acceptance test-->
+        <!--QUnit, jquery and sinon for acceptance test-->
+        <script src="lib/qunit/qunit-1.10.0.js"></script>
         <script src="lib/sinonjs/sinon-1.7.1.js"></script>
         <script src="lib/jquery/jQuery-1.10.1.js"></script>
 
@@ -16,6 +17,8 @@
         <script src="acceptance/DOMRouter.acceptance.js"></script>
     </head>
     <body>
+        <!--QUnit-->
+        <div id="qunit"></div>
 
         <!--test context-->
         <nav id="router">
