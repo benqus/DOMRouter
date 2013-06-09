@@ -1,22 +1,18 @@
 
 var app = Object.create({
-    click: function () {
+    click: function (e) {
         var console = DOMRouter.getConsole();
-        console.log("click", this, arguments);
+        console.log("click", e);
     },
-    mousedown: function () {
+    mousedown: function (e) {
         var console = DOMRouter.getConsole();
-        console.log("mousedown", this, arguments);
+        console.log("mousedown", e);
 
         this.hub.removeListener("mousedown");
     },
     render: function () {
         var element = this.hub.getElement();
-
         document.body.appendChild(element);
-
-        element.style.width = "100%";
-        element.style.height = "100%";
     }
 });
 
@@ -25,10 +21,20 @@ var app = Object.create({
 
 
 
-var div = document.createElement("div");
-div.setAttribute("class", "trigger");
+var div1 = document.createElement("div");
 
-var domEventHub = new DOMRouter(app, div);
+var div2 = document.createElement("div");
+div2.setAttribute("class", "second");
+
+var div3 = document.createElement("div");
+div3.setAttribute("class", "third");
+
+div2.appendChild(div3);
+div1.appendChild(div2);
+
+div1.setAttribute("class", "trigger first");
+
+var domEventHub = new DOMRouter(app, div1);
 
 domEventHub.addListener({
     "click": "click",

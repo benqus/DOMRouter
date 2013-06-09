@@ -18,7 +18,7 @@ if (typeof Date.now === "undefined") {
  * Generic proxy object to catch or group DOMEvents together
  * @param context {Object} the context of the callback
  * @param [tag] {String|HTMLElement} either the tagname of the proxy element or a pre-specified element
- * @constructor
+ * @constructor DOMRouter
  */
 var DOMRouter = function (context, tag) {
     var self = this;
@@ -29,14 +29,6 @@ var DOMRouter = function (context, tag) {
     self.listener = function () {
         self.callback.apply(self, arguments)
     };
-};
-
-/**
- * for debugging
- * @returns {Console}
- */
-DOMRouter.getConsole = function () {
-    return (console ? console : { log: function () {} });
 };
 
 /**
@@ -194,3 +186,12 @@ DOMRouter.eventPrefix = (function () {
     var div = document.createElement("div");
     return (div.addEventListener ? "" : "on");
 }());
+
+/**
+ * @static
+ * for debugging
+ * @returns {Console}
+ */
+DOMRouter.getConsole = function () {
+    return (console ? console : { log: function () {} });
+};
