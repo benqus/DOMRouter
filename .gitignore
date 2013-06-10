@@ -4,7 +4,9 @@
 #################
 .idea/
 
-
+# Grunt
+node_modules/
+npm_debug.log
 
 #################
 ## Eclipse

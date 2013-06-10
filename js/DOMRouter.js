@@ -22,8 +22,7 @@ if (typeof Date.now === "undefined") {
  */
 var DOMRouter = function (context, tag) {
     this.context = context;
-    this.element = (tag instanceof HTMLElement ?
-        tag : document.createElement(tag || "div"));
+    this.element = (tag instanceof HTMLElement ? tag : document.createElement(tag || "div"));
     this.element.__router__ = this;
     this.listeners = {};
     this.listener = DOMRouter.listener;
