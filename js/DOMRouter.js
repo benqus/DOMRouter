@@ -21,14 +21,20 @@ if (typeof Date.now === "undefined") {
  * @constructor DOMRouter
  */
 var DOMRouter = function (context, tag) {
-    var self = this;
-    self.context = context;
-    self.element = (tag instanceof HTMLElement ?
+    this.context = context;
+    this.element = (tag instanceof HTMLElement ?
         tag : document.createElement(tag || "div"));
-    self.listeners = {};
-    self.listener = function () {
-        self.callback.apply(self, arguments)
-    };
+    this.element.__router__ = this;
+    this.listeners = {};
+    this.listener = DOMRouter.listener;
+};
+
+/**
+ * generic event capture method. Each DOMRouter instance references and calls ONE function
+ */
+DOMRouter.listener = function () {
+    var router = this.__router__;
+    return router.callback.apply(router, arguments);
 };
 
 /**
@@ -95,6 +101,7 @@ DOMRouter.prototype.removeListeners = function () {
  * removes all listeners from the dom element and the hub too
  * @return {DOMRouter}
  */
+//TODO: rename to 'reset'
 DOMRouter.prototype.removeAllListeners = function () {
     this.removeListeners();
     this.listeners = {};
@@ -123,6 +130,7 @@ DOMRouter.prototype.setElement = function (element, listeners) {
     this.removeListeners();
 
     this.element = element;
+    this.element.__router__ = this;
 
     //register events again
     for (l in listeners) {
@@ -150,11 +158,13 @@ DOMRouter.prototype.callback = function (event) {
         listener = listeners[type];
 
         if (typeof listener === "string") {
-            context[listener].apply(context, arguments);
+            return context[listener].apply(context, arguments);
         } else if (typeof listener === "function") {
-            listener.apply(context, arguments);
+            return listener.apply(context, arguments);
         }
     }
+
+    return true;
 };
 
 /**
