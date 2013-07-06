@@ -1,19 +1,3 @@
-//Object.create shim
-if (typeof Object.create === "undefined") {
-    Object.create = function (proto) {
-        var F = function () {};
-        F.prototype = proto;
-        return new F();
-    };
-}
-
-//Date.now shim
-if (typeof Date.now === "undefined") {
-    Date.now = function () {
-        return new Date().getTime();
-    };
-}
-
 /**
  * Generic proxy object to catch or group DOMEvents together
  * @param context {Object} the context of the callback
