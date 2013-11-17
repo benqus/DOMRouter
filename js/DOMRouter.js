@@ -92,11 +92,12 @@ DOMRouter.prototype = {
     removeListeners: function () {
         var element = this.element;
         var listeners = this.listeners;
+        var removeHandler = DOMRouter.handlers.remove;
         var l;
     
         for (l in listeners) {
             if (listeners.hasOwnProperty(l)) {
-                element[DOMRouter.handlers.remove](this.normalizeEvent(l), this.listener);
+                element[removeHandler](this.normalizeEvent(l), this.listener);
             }
         }
     
@@ -121,8 +122,9 @@ DOMRouter.prototype = {
      * @return {DOMRouter}
      */
     setElement: function (element, listeners) {
-        var l;
         var _listeners = this.listeners;
+        var addHandler = DOMRouter.handlers.add;
+        var l;
     
         //unregister all events from old element
         this.removeListeners();
@@ -133,7 +135,7 @@ DOMRouter.prototype = {
         //register events again
         for (l in listeners) {
             if (listeners.hasOwnProperty(l) && !_listeners.hasOwnProperty(l)) {
-                element[DOMRouter.handlers.add](this.normalizeEvent(l), this.listener);
+                element[addHandler](this.normalizeEvent(l), this.listener);
     
                 _listeners[l] = listeners[l];
             }
