@@ -57,13 +57,14 @@ DOMRouter.prototype = {
      * @return {DOMRouter}
      */
     addListener: function (listeners) {
-        var l;
         var element = this.element;
+        var addHandler = DOMRouter.handlers.add;
         var _listeners = this.listeners;
+        var l;
     
         for (l in listeners) {
             if (listeners.hasOwnProperty(l) && !_listeners.hasOwnProperty(l)) {
-                element[DOMRouter.handlers.add](this.normalizeEvent(l), this.listener);
+                element[addHandler](this.normalizeEvent(l), this.listener);
     
                 _listeners[l] = listeners[l];
             }
