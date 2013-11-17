@@ -1,11 +1,9 @@
 
 var app = Object.create({
     click: function (e) {
-        var console = DOMRouter.getConsole();
         console.log("click", e);
     },
     mousedown: function (e) {
-        var console = DOMRouter.getConsole();
         console.log("mousedown", e);
 
         this.hub.removeListener("mousedown");
