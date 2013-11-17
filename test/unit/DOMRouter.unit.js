@@ -16,7 +16,7 @@
 
     test("prototype", function () {
         var proto = DOMRouter.prototype;
-        var methods = "normalizeEvent,addListener,removeListener,removeListeners,removeAllListeners,listener,getElement,setElement,callback".split(",");
+        var methods = "normalizeEvent,addListener,removeListener,removeListeners,removeAllListeners,listener,setElement,callback".split(",");
 
         while (methods.length > 0) {
             ok(proto.hasOwnProperty(methods.shift()));
